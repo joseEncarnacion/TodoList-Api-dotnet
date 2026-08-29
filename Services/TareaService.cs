@@ -30,22 +30,12 @@ namespace todo.api.Services
            await _context.SaveChangesAsync();
 
            
-            var tareaCtualizada = await _context.Tareas
+            var tareaActualizada = await _context.Tareas
             .Where(t => t.TareaID ==id)
-            .Select(t => new TareaResponseDTOs
-            {
-                TareaID = t.TareaID,
-                Descripcion = t.Descripcion,
-                FechaCreacion = t.fechaCreacion,
+            .Select(TareaMapper.ToResponse())
+            .FirstOrDefaultAsync();
 
-                Usuario = t.Usuario.NombreUsuario,
-                Estado = t.Estado.NombreEstado,
-                Prioridad = t.Prioridad.NombrePrioridad
-            }).FirstOrDefaultAsync();
-
-            return tareaCtualizada;
-
-
+            return tareaActualizada;
 
         }
 
@@ -56,20 +46,12 @@ namespace todo.api.Services
             _context.Tareas.Add(tarea);
             await _context.SaveChangesAsync();
 
-            var tareasGuardada = await _context.Tareas
+            var tareaGuardada = await _context.Tareas
             .Where(t => t.TareaID == tarea.TareaID)
-            .Select(t => new TareaResponseDTOs
-            {
-                TareaID = t.TareaID,
-                Descripcion = t.Descripcion,
-                FechaCreacion = t.fechaCreacion,
+            .Select(TareaMapper.ToResponse())
+            .FirstOrDefaultAsync();
 
-                Usuario = t.Usuario.NombreUsuario,
-                Estado = t.Estado.NombreEstado,
-                Prioridad = t.Prioridad.NombrePrioridad
-            }).FirstOrDefaultAsync();
-
-            return tareasGuardada!;
+            return tareaGuardada!;
         }
 
         public async Task<bool> Eliminar(int id)
@@ -100,17 +82,8 @@ namespace todo.api.Services
             }
 
             var response = await query
-            .Select(t => new TareaResponseDTOs
-            {
-                TareaID = t.TareaID,
-                Descripcion = t.Descripcion,
-                FechaCreacion = t.fechaCreacion,
-
-                Usuario = t.Usuario.NombreUsuario,
-                Estado = t.Estado.NombreEstado,
-                Prioridad = t.Prioridad.NombrePrioridad
-
-            }).ToListAsync();
+            .Select(TareaMapper.ToResponse())
+            .ToListAsync();
 
             return response;
         }
@@ -118,36 +91,16 @@ namespace todo.api.Services
         public async Task<List<TareaResponseDTOs>> Listar()
         {
             return await _context.Tareas
-            .Select(t => new TareaResponseDTOs
-            {
-                TareaID = t.TareaID,
-                Descripcion = t.Descripcion,
-                FechaCreacion = t.fechaCreacion,
-                Usuario = t.Usuario.NombreUsuario,
-                Estado = t.Estado.NombreEstado,
-                Prioridad = t.Prioridad.NombrePrioridad
-            }).ToListAsync();
+            .Select(TareaMapper.ToResponse()).ToListAsync();
         }
 
         public async Task<TareaResponseDTOs?> ObtenerPorID(int id)
         {
             return await _context.Tareas
             .Where(t => t.TareaID == id)
-            .Select(t => new TareaResponseDTOs
-            {
-                TareaID = t.TareaID,
-                Descripcion = t.Descripcion,
-                FechaCreacion = t.fechaCreacion,
+            .Select(TareaMapper.ToResponse())
+            .FirstOrDefaultAsync();
 
-                Usuario = t.Usuario.NombreUsuario,
-                Estado = t.Estado.NombreEstado,
-                Prioridad = t.Prioridad.NombrePrioridad
-
-            }).FirstOrDefaultAsync();
-
-            
-
-            
         }
     }
 }
