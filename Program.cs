@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using todo.api.Data;
+using todo.api.Middleware;
 using todo.api.Services;
+using todo.api.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 
 builder.Services.AddScoped<ITareaService, TareaService>();
+builder.Services.AddScoped<TareaValidator>();
 
 var app = builder.Build();
 
@@ -27,6 +30,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     app.MapOpenApi();
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 

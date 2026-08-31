@@ -7,16 +7,19 @@ using todo.api.Data;
 using todo.api.DTOs.Tarea;
 using todo.api.Mappers;
 using todo.api.Models;
+using todo.api.Validators;
 
 namespace todo.api.Services
 {
     public class TareaService : ITareaService
     {
         private readonly AppDbContext _context;
+        private readonly TareaValidator _validator;
 
-        public TareaService(AppDbContext context)
+        public TareaService(AppDbContext context, TareaValidator validator)
         {
             _context = context;
+            _validator = validator;
         }
         public async Task<TareaResponseDTOs?> Actualizar(int id, TareaUpdateDTOs dto)
         {
@@ -24,6 +27,8 @@ namespace todo.api.Services
            .FirstOrDefaultAsync(t => t.TareaID == id);
 
            if (actualizarTarea == null) return null;
+
+           await _validator.ValidarActualizar(dto);
 
            TareaMapper.UpdateEntity(actualizarTarea, dto); 
 
@@ -41,6 +46,9 @@ namespace todo.api.Services
 
         public async Task<TareaResponseDTOs> Crear(TareaCreateDTOs dto)
         {
+            
+            await _validator.ValidarCrear(dto);
+            
             var tarea = TareaMapper.ToEntity(dto);
 
             _context.Tareas.Add(tarea);
