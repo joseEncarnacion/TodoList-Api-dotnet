@@ -15,7 +15,7 @@ namespace todo.api.Services
 
         public Task<List<TareaResponseDTOs>> Filtrar(int? estadoID, int? prioridadID);  
 
-        public Task<TareaResponseDTOs> Actualizar(int id, TareaUpdateDTOs dto);
+        public Task<TareaResponseDTOs?> Actualizar(int id, TareaUpdateDTOs dto);
 
         public Task<bool> Eliminar(int id);     
         

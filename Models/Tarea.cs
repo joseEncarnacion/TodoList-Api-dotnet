@@ -12,12 +12,12 @@ namespace todo.api.Models
         public int EstadoID { get; set; }
         public int PrioridadID { get; set; }
 
-        public string Descripcion { get; set; }
-        public DateTime fechaCreacion { get; set; }
+        public string Descripcion { get; set; } = string.Empty;
+        public DateTime fechaCreacion { get; set; } 
 
-        public Usuario Usuario { get; set; }
-        public Estado Estado { get; set; }
-        public Prioridad Prioridad { get; set; }
+        public Usuario Usuario { get; set; } = null!;
+        public Estado Estado { get; set; } = null!;
+        public Prioridad Prioridad { get; set; } = null!;
         
     }
     
