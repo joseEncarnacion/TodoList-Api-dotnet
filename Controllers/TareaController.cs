@@ -38,8 +38,11 @@ namespace todo.api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> ObtenerPorID(int id)
+        [ProducesResponseType(typeof(TareaResponseDTOs),StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)] 
+        [ProducesResponseType(typeof(ProblemDetails),StatusCodes.Status500InternalServerError)]       public async Task<IActionResult> ObtenerPorID(int id)
         {
+            
             var response = await _tareaService.ObtenerPorID(id);
 
             if(response == null) return NotFound();
