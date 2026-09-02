@@ -28,6 +28,8 @@ namespace todo.api.Controllers
         }
 
         [HttpGet]   
+        [ProducesResponseType(typeof(List<TareaResponseDTOs>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ListarTareas()
         {
 
@@ -40,7 +42,8 @@ namespace todo.api.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(TareaResponseDTOs),StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)] 
-        [ProducesResponseType(typeof(ProblemDetails),StatusCodes.Status500InternalServerError)]       public async Task<IActionResult> ObtenerPorID(int id)
+        [ProducesResponseType(typeof(ProblemDetails),StatusCodes.Status500InternalServerError)]       
+        public async Task<IActionResult> ObtenerPorID(int id)
         {
             
             var response = await _tareaService.ObtenerPorID(id);
@@ -51,6 +54,9 @@ namespace todo.api.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(TareaResponseDTOs), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Crear(TareaCreateDTOs  dto)
         {
 
@@ -65,6 +71,10 @@ namespace todo.api.Controllers
         }
 
         [HttpPut("{id}")]
+        [ProducesResponseType(typeof(TareaResponseDTOs), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Actualizar(int id, TareaUpdateDTOs dto)
         {
             // 1. Buscar entidad existente
@@ -80,6 +90,9 @@ namespace todo.api.Controllers
 
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails),StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> Eliminar(int id)
         {
             var response = await _tareaService.Eliminar(id);
@@ -89,7 +102,11 @@ namespace todo.api.Controllers
             return NoContent();
         }
 
+
+
         [HttpGet("filtrar")]
+        [ProducesResponseType(typeof(List<TareaResponseDTOs>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Filtrar(int? estadoID, int? PrioridadID)
         {
            var response = await _tareaService.Filtrar(estadoID, PrioridadID);
