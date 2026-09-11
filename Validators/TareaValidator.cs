@@ -20,7 +20,7 @@ namespace todo.api.Validators
         public async Task<bool> UsuarioExiste(int usuarioID)
         {
             return await _context.Usuarios
-            .AnyAsync(u => u.UsuarioID == usuarioID);
+            .AnyAsync(u => u.Id == usuarioID);
         }
 
         public async Task<bool> EstadoExiste(int estadoID)

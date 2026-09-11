@@ -15,7 +15,7 @@ using todo.api.Services;
 namespace todo.api.Controllers
 {
     [Route("[controller]")]
-    public class TareaController : Controller
+    public class TareaController : ControllerBase
     {
        
         private readonly ITareaService _tareaService;

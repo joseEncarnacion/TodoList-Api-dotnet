@@ -4,11 +4,13 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using todo.api.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace todo.api.Data
 {
-    public class AppDbContext:DbContext
+    public class AppDbContext: IdentityDbContext<Usuario, IdentityRole<int>, int>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -23,6 +25,9 @@ namespace todo.api.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
+
             modelBuilder.Entity<Tarea>()
             .HasOne(x => x.Usuario)
             .WithMany(u => u.Tareas)
