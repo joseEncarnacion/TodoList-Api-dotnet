@@ -37,5 +37,22 @@ namespace todo.api.Controllers
             return BadRequest(resultado.Errors);
         }
 
+        [HttpPost("login")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ProblemDetails),StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Login(LoginRequestDTO dto)
+        {
+            var resultado =  await _authService.Login(dto);
+
+            if (resultado == null)
+            {
+                return Unauthorized();
+            }
+
+            return Ok(resultado);
+
+        }
+
     }
 }

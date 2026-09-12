@@ -7,6 +7,6 @@ namespace todo.api.DTOs.Auth
 {
     public class LoginResponseDTO
     {
-        
+        public string Token { get; set; }= string.Empty;
     }
 }

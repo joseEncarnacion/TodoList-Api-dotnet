@@ -10,5 +10,9 @@ namespace todo.api.Services.Auth
     public interface IAuthService
     {
         Task<IdentityResult> Registrar(RegisterRequestDTO dto);
+
+        // Task<bool> Login(LoginRequestDTO dto);
+
+        Task<LoginResponseDTO?> Login(LoginRequestDTO dto);
     }
 }
