@@ -28,6 +28,7 @@ builder.Services.AddIdentity<Usuario, IdentityRole<int>>()
 builder.Services.AddScoped<ITareaService, TareaService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<TareaValidator>();
+builder.Services.AddScoped<IJwtService, JwtService>();
 
 
 var app = builder.Build();

@@ -12,10 +12,12 @@ namespace todo.api.Services.Auth
     public class AuthService : IAuthService
     {
         private readonly UserManager<Usuario> _userManager;
+        private readonly IJwtService _jService;
 
-        public AuthService(UserManager<Usuario> userManager)
+        public AuthService(UserManager<Usuario> userManager, IJwtService ijService)
         {
             _userManager = userManager;
+            _jService = ijService;
         }
 
         public async Task<LoginResponseDTO?> Login(LoginRequestDTO dto)
@@ -40,9 +42,11 @@ namespace todo.api.Services.Auth
                 new Claim(ClaimTypes.Email, usuario.Email ?? string.Empty),
             };
 
+            var token = _jService.GenerarToken(claims);
+
             var respuesta = new LoginResponseDTO
             {
-                Token = "Token"
+                Token = token
             };
 
 
